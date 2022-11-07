@@ -54,7 +54,7 @@
     color: black;
     text-decoration:underline dotted black;
 }
-#btn-submit{
+.btn-submit{
     font-size: 23px;
     --bs-btn-bg: #96C93E;
     --bs-btn-border-color: #96C93E;
@@ -64,3 +64,4 @@ footer{
     background: rgb(27,55,69);
     background: linear-gradient(90deg, rgba(27,55,69,1) 0%, rgba(30,71,93,1) 51%, rgba(36,103,142,1) 100%);
 }
+
