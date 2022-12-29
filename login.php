@@ -1,10 +1,16 @@
 <?php
 session_start();
 if ($_SESSION) {
-    match ($_SESSION['tipoUsuario']) {
-        'Administrador' => header("Location: area-administrador.php"),
-        'Orador' => header("Location: area-orador.php"),
-        'Cliente' => header("Location: area-cliente.php"),
+    switch ($_SESSION['tipoUsuario']) {
+        case 'Administrador':
+            header("Location: area-administrador.php");
+            break;
+        case 'Orador':
+            header("Location: area-orador.php");
+            break;
+        case 'Cliente':
+            header("Location: area-cliente.php");
+            break;
     };
 }
 
