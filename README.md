@@ -1,11 +1,10 @@
 # 👨🏻‍💻Proyecto integrador Full Stack PHP - Codo a Codo
-<img src="/assets/images/readme/index.png" height="500px;"/>
+<div style="text-align:center"><img src="/assets/images/readme/index.png" height="500px;"/></div>
 
 ## 🦾 Tecnologías usadas
 [![My Skills](https://skills.thijs.gg/icons?i=html,css,js,bootstrap,mysql,php)](https://skills.thijs.gg)
 
-## 💻 Demo
-[Demo](http://www.proyectos.nicolascalcagno.com.ar/CodoACodo-Integrador/index.php)
+## 💻 [Demo](http://www.proyectos.nicolascalcagno.com.ar/CodoACodo-Integrador/index.php)
 
 Cuentas:
 * admin@admin.com:123
@@ -25,6 +24,7 @@ Según el enunciado del trabajo práctico debe tener:
 
 ## ➕ Extra
 Lo que añadí como extra:
+
 9. Diseño web modular (Header y Footer pueden ser incluidos en las páginas)
 10. TRES tipos de rol de usuario: Administrador, Orador y Cliente
 11. Todos los usuarios registrados poseen:
