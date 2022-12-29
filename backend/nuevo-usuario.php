@@ -7,7 +7,7 @@ $tipoUsuario = 3;
 
 include_once("conexion-bd.php");
 if (SonDatosIngresadosValidos() && !EstaRegistrado()) {
-    $avatarDefault = 'assets/images/profile/administrador.jpg';
+    $avatarDefault = 'assets/images/profile/default.jpg';
     $consultaNuevoUsuario = "INSERT INTO usuarios (Id, Nombre, Apellido, Correo, Clave, Estado, IdTipoUsuario, Avatar) VALUES (null, '{$nombre}', '{$apellido}', '{$correo}', '{$clave}', 'Inactivo', 3, '{$avatarDefault}')";
     $resultadoNuevoUsuario = mysqli_query($conexion, $consultaNuevoUsuario);
     header("Location: ../login.php", true, 301);
