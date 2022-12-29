@@ -52,7 +52,7 @@ if ($_SESSION) {
             <p class="text-center">¿Ya tenes cuenta? <a href="login.php">Ingresá</a></p>
 
             <div class="col-12 col-md-6 mt-5 mx-auto text-center">
-                <input type="submit" class="btn btn-success w-50 pt-2 pb-2 text-center" value="Crear">
+                <input type="submit" class="btn btn-success btn-submit w-50 pt-2 pb-2 text-center" value="Crear">
             </div>
         </form>
     </div>
