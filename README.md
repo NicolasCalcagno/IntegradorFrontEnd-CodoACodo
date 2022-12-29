@@ -1,7 +1,7 @@
 # 👨🏻‍💻Proyecto integrador Full Stack PHP - Codo a Codo
 
 ## 🦾 Tecnologías usadas
-[![My Skills](https://skills.thijs.gg/icons?i=html,css,js,mysql,php)](https://skills.thijs.gg)
+[![My Skills](https://skills.thijs.gg/icons?i=html,css,js,bootstrap,mysql,php)](https://skills.thijs.gg)
 
 ## 💻 Demo:
 [Demo](http://www.proyectos.nicolascalcagno.com.ar/CodoACodo-Integrador/index.php)
