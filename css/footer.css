@@ -1,0 +1,23 @@
+#footer-mucho-contenido{
+    position: relative;
+    clear: both;
+    width: 100%;
+    margin-top: 100px;
+    background: rgb(27,55,69);
+    background: linear-gradient(90deg, rgba(27,55,69,1) 0%, rgba(30,71,93,1) 51%, rgba(36,103,142,1) 100%);
+}
+#footer-poco-contenido{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgb(27,55,69);
+    background: linear-gradient(90deg, rgba(27,55,69,1) 0%, rgba(30,71,93,1) 51%, rgba(36,103,142,1) 100%);
+}
+
+footer .nav-link{
+    color:white;
+}
+footer .nav-link:hover{
+    color: aqua;
+}
+

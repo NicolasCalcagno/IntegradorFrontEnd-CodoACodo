@@ -1,0 +1,23 @@
+.navbar-dark {
+    --bs-navbar-color: #BDBDBD;
+    --bs-navbar-hover-color: #FFFFFF;
+}
+
+#navlink-tickets{
+    color:greenyellow;
+}
+#navlink-tickets:hover{
+    color:#0dcaf0;
+}
+
+#navlink-acceder{
+    color: white;
+}
+#navlink-acceder:hover{
+   color: black;
+    background-color: white;
+}
+
+#navbarUsuario > div{
+    height: 40px;
+}

@@ -1,48 +1,28 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-    <link href="css/tickets.css" rel="stylesheet">
-    <title>Tickets - Codo A Codo</title>
-</head>
-<body>
-    <!--Navbar-->
-    <header>
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark border-3 border-bottom border-primary">
-            <a class="navbar-brand text-white ms-5" href="#">
-                <img src="src/codoacodo.png" alt="Logo" width="100" height="60" class="d-inline-block align-text-center">
-                Congreso Bs As
-            </a>
-            <button class="navbar-toggler me-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarMenu">
-                <div class="mx-auto">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="index.html">La conferencia</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Los oradores</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">El lugar y la fecha</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Conviértete en orador</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active text-info" id="navlink-buy-tickets" aria-current="page" href="#">Comprar tickets</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <!--FIN Navbar-->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/tickets.css">
+    <link rel="shortcut icon" href="assets/icons/codoacodo.ico" />
 
+    <title>Tickets</title>
+</head>
+
+<body>
+    <!--Header-->
+    <?php include_once("templates/header.php") ?>
+
+    <!--Formulario-->
     <div class="container mt-5">
         <form id="formulario">
             <!--Cards de categoria-->
@@ -79,11 +59,11 @@
                 </div>
             </div>
             <!--FIN Cards de categoria-->
-        
+
             <p class="text-muted text-center mt-4 mb-0">VENTA</p>
             <h1 class="text-center">VALOR DE TICKET $200</h1>
-    
-    
+
+
             <div class="row">
                 <div class="col-12 col-md-6 mt-3">
                     <input type="text" class="form-control" placeholder="Nombre" required>
@@ -100,19 +80,19 @@
                 </div>
                 <div class="col-12 col-sm-6 mt-3">
                     <label for="categoria">Categoría</label>
-                    <select class="form-select" name="categoria" aria-label="Elige tu categoría" id="categoria"  required>
+                    <select class="form-select" name="categoria" aria-label="Elige tu categoría" id="categoria" required>
                         <option selected disabled hidden>Elige tu categoría</option>
                         <option value="estudiante">Estudiante</option>
                         <option value="trainee">Trainee</option>
                         <option value="junior">Junior</option>
                     </select>
                 </div>
-    
+
                 <div class="col-12 mt-3">
                     <input type="text" id="total" class="form-control mt-3" placeholder="Total a pagar: $" disabled>
                 </div>
-                
-                
+
+
                 <div class="col-6 mt-5">
                     <input type="button" class="btn btn-success btn-submit w-100 pt-2 pb-2" onclick="Borrar()" value="Borrar">
                 </div>
@@ -120,37 +100,16 @@
                     <input type="button" class="btn btn-success btn-submit w-100 pt-2 pb-2" onclick="MostrarResumen()" value="Resumen">
                 </div>
             </div>
-        </div>
-    
+    </div>
+
     </form>
-    
 
     <!--Footer-->
-    <footer>
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <button class="navbar-toggler ms-auto me-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav ms-auto me-auto mt-2 mt-lg-0 ">
-                        <a class="nav-link ms-auto me-auto text-white" href="#">Preguntas frecuentes</a>
-                        <a class="nav-link ms-auto ms-lg-4 me-auto text-white" href="#">Contáctanos</a>
-                        <a class="nav-link ms-auto ms-lg-4 me-auto text-white" href="#">Prensa</a>
-                        <a class="nav-link ms-auto ms-lg-4 me-auto text-white" href="#">Conferencias</a>
-                        <a class="nav-link ms-auto ms-lg-4 me-auto text-white" href="#">Terminos y condiciones</a>
-                        <a class="nav-link ms-auto ms-lg-4 me-auto text-white" href="#">Privacidad</a>
-                        <a class="nav-link ms-auto ms-lg-4 me-auto text-white" href="#">Conferencias</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </footer>
+    <div id="footer-poco-contenido">
+        <?php include_once("templates/footer.php"); ?>
+    </div>
 
-    <script>
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    </script>
     <script src="js/tickets.js"></script>
 </body>
+
 </html>

@@ -2,19 +2,6 @@
     padding:0;
     margin:0;
 }
-
-.navbar-dark {
-    --bs-navbar-color: #BDBDBD;
-    --bs-navbar-hover-color: #FFFFFF;
-}
-#navlink-buy-tickets{
-    color:greenyellow;
-}
-#navlink-buy-tickets:hover {
-    transform: scale(1.3);
-    margin-left: 40px;
-}
-
 .welcome-image{
     max-height:700px;
     filter: brightness(50%);
@@ -32,36 +19,12 @@
     bottom: initial;
 }
 
-.btn-success {
-    --bs-btn-hover-bg: #000000;
-    --bs-btn-hover-border-color: #000000;
-}
-
-.btn-buy-tickets{
-    --bs-btn-bg: #29A744;
-    --bs-btn-border-color: #29A744;
-}
-
-.img-more-info{
-    background-image: url('../src/honolulu.jpg');
-    background-size: 100% 100%;
-    height: 600px;
-    background-repeat: no-repeat;
-    background-position: left top;
+.btn-tickets{
+    background: #29A744;
+    border-color: #29A744;
 }
 
 #a-ignite{
     color: black;
     text-decoration:underline dotted black;
 }
-.btn-submit{
-    font-size: 23px;
-    --bs-btn-bg: #96C93E;
-    --bs-btn-border-color: #96C93E;
-}
-
-footer{
-    background: rgb(27,55,69);
-    background: linear-gradient(90deg, rgba(27,55,69,1) 0%, rgba(30,71,93,1) 51%, rgba(36,103,142,1) 100%);
-}
-

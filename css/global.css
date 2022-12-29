@@ -1,0 +1,11 @@
+a{
+    text-decoration: none;
+}
+
+.btn-submit{
+    font-size: 23px;
+    --bs-btn-hover-bg: #000000;
+    --bs-btn-hover-border-color: #000000;
+    background-color: #96C93E;
+    border-color: #96C93E;
+}
