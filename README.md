@@ -1,4 +1,5 @@
 # 👨🏻‍💻Proyecto integrador Full Stack PHP - Codo a Codo
+<img src="/assets/images/readme/index.png" height="400px;"/>
 
 ## 🦾 Tecnologías usadas
 [![My Skills](https://skills.thijs.gg/icons?i=html,css,js,bootstrap,mysql,php)](https://skills.thijs.gg)
@@ -10,7 +11,6 @@ Cuentas:
 * admin@admin.com:123
 * orador@orador.com:123
 * cliente@cliente.com:123
-![Foto de mi página](/assets/images/readme/index.png)
 
 ## 📝 Según el enunciado del trabajo práctico debe tener:
 1. (OPCIONAL) index.php y tickets.php deben verse como las imágenes ubicadas en "assets/images/enunciado" usando Bootstrap 5.
