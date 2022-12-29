@@ -124,7 +124,7 @@ session_start();
     <!--Conviertete en orador-->
     <section class="mt-4" id="convierteteEnOrador">
         <div class="container text-center">
-            <form action="POST">
+            <form action="index.php">
                 <p class="mb-0">CONVIERTETE EN</p>
                 <h1>ORADOR</h1>
                 <p>Anótate como orador para dar una <a href="#" data-bs-toggle="tooltip" data-bs-title="Es una presentación de la idea central de un proyecto o visión en 5 minutos" id="a-ignite">charla ignite</a>. ¡Cuéntanos de que quieres hablar!</p>
