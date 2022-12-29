@@ -1,11 +1,11 @@
 # 👨🏻‍💻Proyecto integrador Full Stack PHP - Codo a Codo
-Aplique lo aprendido en el curso y otra gran parte de conocimientos aprendidos de manera autodidacta
 
-##Tecnologias usadas
+## 🦾 Tecnologías usadas
 [![My Skills](https://skills.thijs.gg/icons?i=html,css,js,mysql,php)](https://skills.thijs.gg)
 
 ## 💻 Demo:
-[Demo](www.proyectos.nicolascalcagno.com.ar/CodoACodo-Integrador/index.php)
+[Demo](http://www.proyectos.nicolascalcagno.com.ar/CodoACodo-Integrador/index.php)
+
 Cuentas:
 * admin@admin.com:123
 * orador@orador.com:123
