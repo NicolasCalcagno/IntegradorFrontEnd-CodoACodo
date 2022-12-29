@@ -11,6 +11,8 @@ if (SonDatosIngresadosValidos() && !EstaRegistrado()) {
     $consultaNuevoUsuario = "INSERT INTO usuarios (Id, Nombre, Apellido, Correo, Clave, Estado, IdTipoUsuario, Avatar) VALUES (null, '{$nombre}', '{$apellido}', '{$correo}', '{$clave}', 'Inactivo', 3, '{$avatarDefault}')";
     $resultadoNuevoUsuario = mysqli_query($conexion, $consultaNuevoUsuario);
     header("Location: ../login.php", true, 301);
+} else {
+    header("Location: ../registro.php", true, 301);
 }
 
 function SonDatosIngresadosValidos()
