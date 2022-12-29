@@ -1,18 +1,19 @@
 # 👨🏻‍💻Proyecto integrador Full Stack PHP - Codo a Codo
+<img src="/assets/images/readme/index.png" height="500px;"/>
 
 ## 🦾 Tecnologías usadas
 [![My Skills](https://skills.thijs.gg/icons?i=html,css,js,bootstrap,mysql,php)](https://skills.thijs.gg)
 
-## 💻 Demo:
+## 💻 Demo
 [Demo](http://www.proyectos.nicolascalcagno.com.ar/CodoACodo-Integrador/index.php)
 
 Cuentas:
 * admin@admin.com:123
 * orador@orador.com:123
 * cliente@cliente.com:123
-![Foto de mi página](/assets/images/readme/index.png)
 
-## 📝 Según el enunciado del trabajo práctico debe tener:
+## 📝 Enunciado
+Según el enunciado del trabajo práctico debe tener:
 1. (OPCIONAL) index.php y tickets.php deben verse como las imágenes ubicadas en "assets/images/enunciado" usando Bootstrap 5.
 2. Login
 3. Registro
@@ -22,7 +23,8 @@ Cuentas:
 7. Capacidad de eliminar usuarios
 8. (Estas últimas tres pueden hacerse en páginas separadas)
 
-## ➕ Lo que añadí como extra
+## ➕ Extra
+Lo que añadí como extra:
 9. Diseño web modular (Header y Footer pueden ser incluidos en las páginas)
 10. TRES tipos de rol de usuario: Administrador, Orador y Cliente
 11. Todos los usuarios registrados poseen:
