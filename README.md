@@ -1,5 +1,5 @@
 # 👨🏻‍💻Proyecto integrador Full Stack PHP - Codo a Codo
-<div style="text-align:center"><img src="/assets/images/readme/index.png" height="500px;"/></div>
+<img align="center" src="/assets/images/readme/index.png" height="500px;"/>
 
 ## 🦾 Tecnologías usadas
 [![My Skills](https://skills.thijs.gg/icons?i=html,css,js,bootstrap,mysql,php)](https://skills.thijs.gg)
