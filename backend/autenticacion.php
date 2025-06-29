@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 include_once("conexion-bd.php");
 
 $correo = $_POST['correo'];
@@ -7,7 +9,6 @@ $consultaUsuario="SELECT * FROM usuarios WHERE Correo='{$correo}' AND Clave='{$c
 $resultadoUsuario = mysqli_query($conexion, $consultaUsuario);
 
 if ($resultadoUsuario->num_rows == 1) {
-    session_start();
     GuardarDatosSesion($resultadoUsuario);
     header("Location: ../area-" . strtolower($_SESSION['tipoUsuario']) . ".php", true, 301);
     exit();
