@@ -5,7 +5,7 @@ RUN apt-get update && \
     docker-php-ext-install mysqli && \
     docker-php-ext-enable mysqli
 
-WORKDIR /var/www/html
+WORKDIR /var/www/html/conferencia-buenos-aires
 
 COPY . .
 
