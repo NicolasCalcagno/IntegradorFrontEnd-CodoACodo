@@ -3,14 +3,3 @@ services:
     build: .
     image: conferencia-buenos-aires
     container_name: conferencia-buenos-aires
-    expose:
-      - "5001"
-    volumes:
-      - .:/var/www/html
-      - /app/secrets/.env:/var/www/html/secrets/.env:ro
-    networks:
-      - mynet
-
-networks:
-  mynet:
-    external: true
