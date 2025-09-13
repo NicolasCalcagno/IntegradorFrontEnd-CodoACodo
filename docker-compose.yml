@@ -1,5 +1,0 @@
-services:
-  conferencia-buenos-aires:
-    build: .
-    image: conferencia-buenos-aires
-    container_name: conferencia-buenos-aires

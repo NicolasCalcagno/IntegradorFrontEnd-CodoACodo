@@ -1,0 +1,31 @@
+services:
+  conferencia-buenos-aires:
+    build: .
+    image: conferencia-buenos-aires
+    container_name: conferencia-buenos-aires
+    user: 1002:1002
+    read_only: true
+    cap_drop:
+      - ALL
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.conferencia-buenos-aires.loadbalancer.server.port=5001
+      - traefik.http.services.conferencia-buenos-aires.loadbalancer.server.scheme=http
+      - traefik.http.routers.conferencia-buenos-aires.entrypoints=websecure
+      - traefik.http.routers.conferencia-buenos-aires.rule=Host(`projects.nicolascalcagno.dev`) && PathPrefix(`/conferencia-buenos-aires/`)
+      - traefik.http.routers.conferencia-buenos-aires.tls=true
+      - traefik.http.routers.conferencia-buenos-aires.tls.certresolver=cloudflare
+      - traefik.http.middlewares.conferencia-buenos-aires-strip.stripprefix.prefixes=/conferencia-buenos-aires
+      - traefik.http.routers.conferencia-buenos-aires.middlewares=conferencia-buenos-aires-strip
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_USER_PUBLIC_NAME=${DB_USER_PUBLIC_NAME}
+      - DB_USER_PUBLIC_PASS=${DB_USER_PUBLIC_PASS}
+      - DB_NAME_CONFERENCIA_BUENOS_AIRES=${DB_NAME_CONFERENCIA_BUENOS_AIRES}
+    volumes:
+      - ./conferencia-buenos-aires:/var/www/html/conferencia-buenos-aires:ro
+    networks:
+      - traefik
+networks:
+  traefik:
+    external: true
