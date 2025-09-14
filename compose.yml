@@ -24,8 +24,6 @@ services:
       - DB_USER_PUBLIC_NAME=${DB_USER_PUBLIC_NAME}
       - DB_USER_PUBLIC_PASS=${DB_USER_PUBLIC_PASS}
       - DB_NAME_CONFERENCIA_BUENOS_AIRES=${DB_NAME_CONFERENCIA_BUENOS_AIRES}
-    volumes:
-      - ./conferencia-buenos-aires:/var/www/html/conferencia-buenos-aires:ro
     networks:
       - traefik
 networks:
