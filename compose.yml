@@ -6,6 +6,9 @@ services:
     read_only: true
     cap_drop:
       - ALL
+    tmpfs:
+      - /tmp
+      - /var/lib/php/sessions
     labels:
       - traefik.enable=true
       - traefik.http.services.conferencia-buenos-aires.loadbalancer.server.port=5001
@@ -25,6 +28,3 @@ services:
       - ./conferencia-buenos-aires:/var/www/html/conferencia-buenos-aires:ro
     networks:
       - traefik
-networks:
-  traefik:
-    external: true
