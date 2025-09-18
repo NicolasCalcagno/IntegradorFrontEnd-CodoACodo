@@ -19,8 +19,11 @@ services:
       - traefik.http.routers.conferencia-buenos-aires.tls.certresolver=cloudflare
       - traefik.http.middlewares.conferencia-buenos-aires-strip.stripprefix.prefixes=/conferencia-buenos-aires
       - traefik.http.routers.conferencia-buenos-aires.middlewares=conferencia-buenos-aires-strip
-    env_file:
-      - /importante/secrets/conferencia-buenos-aires/.env
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_USER_PUBLIC_NAME=${DB_USER_PUBLIC_NAME}
+      - DB_USER_PUBLIC_PASS=${DB_USER_PUBLIC_PASS}
+      - DB_NAME_CONFERENCIA_BUENOS_AIRES=${DB_NAME_CONFERENCIA_BUENOS_AIRES}
     networks:
       - traefik
 networks:
