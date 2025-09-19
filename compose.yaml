@@ -26,6 +26,9 @@ services:
       - DB_NAME_CONFERENCIA_BUENOS_AIRES=${DB_NAME_CONFERENCIA_BUENOS_AIRES}
     networks:
       - traefik
+      - personal
 networks:
   traefik:
+    external: true
+  personal:
     external: true
