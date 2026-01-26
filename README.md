@@ -1,6 +1,6 @@
 # 👨🏻‍💻Proyecto integrador Full Stack PHP - Codo a Codo
 <p align="center" width="100%">
-    <img width="33%" src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/readme/index.png">
+    <img width="33%" src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/readme/index.webp">
 </p>
 
 ## 🦾 Tecnologías usadas

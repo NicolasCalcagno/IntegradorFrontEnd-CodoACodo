@@ -16,7 +16,7 @@ if ($_SESSION) {
     <!-- Navbar principal -->
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <a class="navbar-brand text-white ms-5" href="index.php">
-            <img src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/general/codoacodo.png" alt="Logo" width="100" height="60" class="d-inline-block align-text-center">
+            <img src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/general/codoacodo.webp" alt="Logo" width="100" height="60" class="d-inline-block align-text-center">
             Congreso Buenos Aires
         </a>
 

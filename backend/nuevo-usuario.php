@@ -7,7 +7,7 @@ $tipoUsuario = 3;
 
 include_once("conexion-bd.php");
 if (SonDatosIngresadosValidos() && !EstaRegistrado()) {
-    $avatarDefault = 'https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/profile/default.jpg';
+    $avatarDefault = 'https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/profile/default.webp';
     $consultaNuevoUsuario = "INSERT INTO usuarios (Id, Nombre, Apellido, Correo, Clave, Estado, IdTipoUsuario, Avatar) VALUES (null, '{$nombre}', '{$apellido}', '{$correo}', '{$clave}', 'Inactivo', 3, '{$avatarDefault}')";
     $resultadoNuevoUsuario = mysqli_query($conexion, $consultaNuevoUsuario);
     header("Location: ../login.php", true, 301);

@@ -30,7 +30,7 @@ session_start();
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/general/ba1.jpg" class="d-block w-100 welcome-image" alt="...">
+                <img src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/general/ba1.webp" class="d-block w-100 welcome-image" alt="...">
                 <div class="welcome-content">
                     <h1 class="mb-0">Conferencia</h1>
                     <h1>Buenos Aires</h1>
@@ -40,7 +40,7 @@ session_start();
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/general/ba2.jpg" class="d-block w-100 welcome-image" alt="...">
+                <img src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/general/ba2.webp" class="d-block w-100 welcome-image" alt="...">
                 <div class="welcome-content">
                     <h1 class="mb-0">Conferencia</h1>
                     <h1>Buenos Aires</h1>
@@ -50,7 +50,7 @@ session_start();
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/general/ba3.jpg" class="d-block w-100 welcome-image" alt="...">
+                <img src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/general/ba3.webp" class="d-block w-100 welcome-image" alt="...">
                 <div class="welcome-content">
                     <h1 class="mb-0">Conferencia</h1>
                     <h1>Buenos Aires</h1>
@@ -74,7 +74,7 @@ session_start();
             <div class="row row-cols-1 row-cols-md-3">
                 <div class="col mb-4 mb-md-0">
                     <div class="card h-100">
-                        <img src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/general/steve.jpg" class="card-img-top" alt="...">
+                        <img src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/general/steve.webp" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title mb-1">Steve Jobs</h5>
                             <span class="badge text-bg-warning">Javascript</span>
@@ -85,7 +85,7 @@ session_start();
                 </div>
                 <div class="col mb-4 mb-md-0">
                     <div class="card h-100">
-                        <img src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/general/bill.jpg" class="card-img-top" alt="...">
+                        <img src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/general/bill.webp" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title mb-1">Bill Gates</h5>
                             <span class="badge text-bg-warning">Javascript</span>
@@ -96,7 +96,7 @@ session_start();
                 </div>
                 <div class="col">
                     <div class="card h-100">
-                        <img src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/general/ada.jpeg" class="card-img-top" alt="...">
+                        <img src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/general/ada.webp" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title mb-1">Ada Lovelace</h5>
                             <span class="badge text-bg-secondary">Negocios</span>
@@ -112,7 +112,7 @@ session_start();
 
     <!--Conoce mas-->
     <section class="row row-cols-1 row-cols-lg-2 g-0 mt-5" id="lugarYFecha">
-        <img src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/general/honolulu.jpg" alt="">
+        <img src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/general/honolulu.webp" alt="">
         <div class="text-bg-dark overflow-hidden ps-4 pe-4 pt-4 pb-4">
             <h1 class="text-white">Buenos Aires OCTUBRE</h1>
             <p>

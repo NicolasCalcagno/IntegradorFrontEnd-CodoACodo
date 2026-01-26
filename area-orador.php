@@ -27,7 +27,7 @@ if ($_SESSION['tipoUsuario'] != 'Orador') {
     <main class="mt-5">
         <div class="container text-center">
             <h1>Orador</h1>
-            <img src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/general/pagina-en-construccion.jpg" alt="" height="600px">
+            <img src="https://cdn.nicolascalcagno.dev/nicolascalcagno/shared/conferencia-buenos-aires/images/general/pagina-en-construccion.webp" alt="" height="600px">
         </div>
     </main>
 
