@@ -170,6 +170,9 @@ jobs:
                 secretName: shared-cluster-tls
             YAML
 
+            # Force new pod to pull latest image
+            kubectl rollout restart deployment/${APP_NAME} -n ${NAMESPACE}
+
             # Wait
             kubectl rollout status deployment/${APP_NAME} -n ${NAMESPACE} --timeout=300s
 
