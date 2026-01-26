@@ -1,0 +1,176 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  APP_NAME: conferencia-buenos-aires
+  APP_PORT: "5001"
+  CLUSTER_DOMAIN: shared.nicolascalcagno.dev
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha,prefix=
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+
+      - name: Setup kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG_SHARED }}" | base64 -d > ~/.kube/config
+          chmod 600 ~/.kube/config
+
+      - name: Deploy to Kubernetes
+        run: |
+          NAMESPACE="apps"
+          IMAGE="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
+
+          # Crear namespace si no existe
+          kubectl create namespace $NAMESPACE --dry-run=client -o yaml | kubectl apply -f -
+
+          # Secret con credenciales de DB
+          kubectl create secret generic ${{ env.APP_NAME }}-db \
+            --namespace $NAMESPACE \
+            --from-literal=DB_HOST="${{ secrets.DB_HOST }}" \
+            --from-literal=DB_USER_PUBLIC_NAME="${{ secrets.DB_USER }}" \
+            --from-literal=DB_USER_PUBLIC_PASS="${{ secrets.DB_PASS }}" \
+            --from-literal=DB_NAME_CONFERENCIA_BUENOS_AIRES="${{ secrets.DB_NAME }}" \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+          # Deployment
+          cat <<EOF | kubectl apply -f -
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: ${{ env.APP_NAME }}
+            namespace: $NAMESPACE
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
+                app: ${{ env.APP_NAME }}
+            template:
+              metadata:
+                labels:
+                  app: ${{ env.APP_NAME }}
+              spec:
+                containers:
+                - name: ${{ env.APP_NAME }}
+                  image: $IMAGE
+                  ports:
+                  - containerPort: ${{ env.APP_PORT }}
+                  envFrom:
+                  - secretRef:
+                      name: ${{ env.APP_NAME }}-db
+                  resources:
+                    requests:
+                      memory: "64Mi"
+                      cpu: "50m"
+                    limits:
+                      memory: "256Mi"
+                      cpu: "500m"
+          EOF
+
+          # Service
+          cat <<EOF | kubectl apply -f -
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: ${{ env.APP_NAME }}
+            namespace: $NAMESPACE
+          spec:
+            selector:
+              app: ${{ env.APP_NAME }}
+            ports:
+            - port: 80
+              targetPort: ${{ env.APP_PORT }}
+          EOF
+
+          # Middleware para strip prefix
+          cat <<EOF | kubectl apply -f -
+          apiVersion: traefik.io/v1alpha1
+          kind: Middleware
+          metadata:
+            name: ${{ env.APP_NAME }}-stripprefix
+            namespace: $NAMESPACE
+          spec:
+            stripPrefix:
+              prefixes:
+              - /${{ env.APP_NAME }}
+          EOF
+
+          # IngressRoute
+          cat <<EOF | kubectl apply -f -
+          apiVersion: traefik.io/v1alpha1
+          kind: IngressRoute
+          metadata:
+            name: ${{ env.APP_NAME }}
+            namespace: $NAMESPACE
+          spec:
+            entryPoints:
+              - websecure
+            routes:
+              - match: Host(\`${{ env.CLUSTER_DOMAIN }}\`) && PathPrefix(\`/${{ env.APP_NAME }}\`)
+                kind: Rule
+                services:
+                  - name: ${{ env.APP_NAME }}
+                    port: 80
+                middlewares:
+                  - name: ${{ env.APP_NAME }}-stripprefix
+            tls:
+              secretName: shared-cluster-tls
+          EOF
+
+          # Esperar rollout
+          kubectl rollout status deployment/${{ env.APP_NAME }} -n $NAMESPACE --timeout=300s
+
+      - name: Deployment Summary
+        run: |
+          echo "=========================================="
+          echo "DEPLOYMENT COMPLETADO"
+          echo "=========================================="
+          echo "App: ${{ env.APP_NAME }}"
+          echo "URL: https://${{ env.CLUSTER_DOMAIN }}/${{ env.APP_NAME }}"
+          echo "Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
+          echo "=========================================="
