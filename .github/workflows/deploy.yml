@@ -105,6 +105,7 @@ jobs:
                   containers:
                   - name: ${APP_NAME}
                     image: ${IMAGE}
+                    imagePullPolicy: Always
                     ports:
                     - containerPort: ${APP_PORT}
                     envFrom:
