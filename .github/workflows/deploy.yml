@@ -71,7 +71,7 @@ jobs:
             APP_NAME="conferencia-buenos-aires"
             APP_PORT="5001"
             NAMESPACE="apps"
-            IMAGE="ghcr.io/nicolascalcagno/integradorfrontend-codoacodo:${GITHUB_SHA}"
+            IMAGE="ghcr.io/nicolascalcagno/integradorfrontend-codoacodo:latest"
 
             # Namespace
             kubectl create namespace $NAMESPACE --dry-run=client -o yaml | kubectl apply -f -
@@ -105,6 +105,7 @@ jobs:
                   containers:
                   - name: ${APP_NAME}
                     image: ${IMAGE}
+                    imagePullPolicy: Always
                     ports:
                     - containerPort: ${APP_PORT}
                     envFrom:
