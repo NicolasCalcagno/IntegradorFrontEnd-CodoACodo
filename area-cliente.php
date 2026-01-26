@@ -27,7 +27,7 @@ if ($_SESSION['tipoUsuario'] != 'Cliente') {
     <main class="mt-5">
         <div class="container text-center">
             <h1>Cliente</h1>
-            <img src="assets/images/general/pagina-en-construccion.jpg" alt="" height="600px">
+            <img src="https://cdn.nicolascalcagno.dev/conferencia-buenos-aires/images/general/pagina-en-construccion.jpg" alt="" height="600px">
         </div>
     </main>
 

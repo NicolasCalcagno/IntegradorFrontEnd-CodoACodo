@@ -1,6 +1,6 @@
 # 👨🏻‍💻Proyecto integrador Full Stack PHP - Codo a Codo
 <p align="center" width="100%">
-    <img width="33%" src="/assets/images/readme/index.png">
+    <img width="33%" src="https://cdn.nicolascalcagno.dev/conferencia-buenos-aires/images/readme/index.png">
 </p>
 
 ## 🦾 Tecnologías usadas
@@ -15,7 +15,7 @@ Cuentas:
 
 ## 📝 Enunciado
 Según el enunciado del trabajo práctico debe tener:
-1. (OPCIONAL) index.php y tickets.php deben verse como las imágenes ubicadas en "assets/images/enunciado" usando Bootstrap 5.
+1. (OPCIONAL) index.php y tickets.php deben verse como las imágenes ubicadas en "https://cdn.nicolascalcagno.dev/conferencia-buenos-aires/images/enunciado" usando Bootstrap 5.
 2. Login
 3. Registro
 4. Calcular el costo de los tickets según cantidad y categoría
