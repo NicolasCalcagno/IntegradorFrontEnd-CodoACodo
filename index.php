@@ -8,6 +8,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="preload" as="image" href="https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/general/ba1.webp">
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
@@ -30,7 +31,7 @@ session_start();
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/general/ba1.webp" class="d-block w-100 welcome-image" alt="...">
+                <img src="https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/general/ba1.webp" class="d-block w-100 welcome-image" fetchpriority="high" decoding="async" alt="...">
                 <div class="welcome-content">
                     <h1 class="mb-0">Conferencia</h1>
                     <h1>Buenos Aires</h1>
