@@ -57,6 +57,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Copy SQL file to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "db-reset.sql"
+          target: "/tmp"
+
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -170,158 +182,11 @@ jobs:
                 secretName: shared-cluster-tls
             YAML
 
-            # ConfigMap with SQL reset script
-            kubectl apply -f - <<'YAML'
-            apiVersion: v1
-            kind: ConfigMap
-            metadata:
-              name: conferencia-buenos-aires-db-reset
-              namespace: apps
-            data:
-              reset.sql: |
-                SET FOREIGN_KEY_CHECKS = 0;
-                DROP TABLE IF EXISTS usuarios;
-                DROP TABLE IF EXISTS tipo_usuario;
-                SET FOREIGN_KEY_CHECKS = 1;
-
-                SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-                START TRANSACTION;
-                SET time_zone = "+00:00";
-
-                CREATE TABLE tipo_usuario (
-                  Id tinyint(4) NOT NULL,
-                  Nombre varchar(30) NOT NULL,
-                  PRIMARY KEY (Id)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-                INSERT INTO tipo_usuario (Id, Nombre) VALUES
-                (1, 'Administrador'),
-                (2, 'Orador'),
-                (3, 'Cliente');
-
-                CREATE TABLE usuarios (
-                  Id int(11) NOT NULL AUTO_INCREMENT,
-                  Nombre varchar(30) NOT NULL,
-                  Apellido varchar(30) NOT NULL,
-                  Correo varchar(255) NOT NULL,
-                  Clave varchar(60) NOT NULL,
-                  Estado enum('Inactivo','Activo','Baneado') NOT NULL,
-                  FechaCreacion datetime DEFAULT CURRENT_TIMESTAMP,
-                  Avatar varchar(1024) NOT NULL,
-                  IdTipoUsuario tinyint(4) NOT NULL,
-                  PRIMARY KEY (Id),
-                  KEY IdTipoUsuario (IdTipoUsuario),
-                  CONSTRAINT usuarios_ibfk_1 FOREIGN KEY (IdTipoUsuario) REFERENCES tipo_usuario (Id)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-                INSERT INTO usuarios (Id, Nombre, Apellido, Correo, Clave, Estado, FechaCreacion, Avatar, IdTipoUsuario) VALUES
-                (1, 'Harriot', 'Ben-Aharon', 'hbenaharon0@bing.com', 'H77ixOx', 'Inactivo', '2022-11-28 22:41:24', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (2, 'Pauly', 'Sowman', 'psowman1@mail.ru', '3gVnCWN9I8Z', 'Inactivo', '2022-03-24 02:23:26', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (3, 'Juieta', 'Durling', 'jdurling2@nsw.gov.au', 'vilLJ7kx8', 'Inactivo', '2021-12-15 21:43:06', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (4, 'Hadria', 'Kipling', 'hkipling3@google.de', 'XhkBzz', 'Inactivo', '2022-06-20 20:55:57', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (5, 'Helsa', 'Josovich', 'hjosovich4@istockphoto.com', '1Zb4xe4wSiT', 'Inactivo', '2021-10-22 19:13:49', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (6, 'Virginie', 'Woffinden', 'vwoffinden5@va.gov', '0N6i3PKd', 'Inactivo', '2021-02-22 20:06:15', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (7, 'Richy', 'Taffarello', 'rtaffarello6@pagesperso-orange.fr', 'ZRIwIX9pT', 'Inactivo', '2021-06-15 09:37:58', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (8, 'Briana', 'Breton', 'bbreton7@over-blog.com', 'QhaLsiQ', 'Inactivo', '2021-06-13 22:48:37', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (9, 'Kinsley', 'Vasilyonok', 'kvasilyonok8@bandcamp.com', 'O4XMbd', 'Inactivo', '2022-07-26 03:14:01', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (10, 'Zebedee', 'Crolla', 'zcrolla9@tuttocitta.it', '9EEC8z3gm', 'Inactivo', '2021-01-16 00:16:12', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (11, 'Felix', 'Steffan', 'fsteffana@japanpost.jp', 'jxolCm', 'Inactivo', '2022-06-29 18:20:47', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (12, 'Reggie', 'Cant', 'rcantb@weather.com', 'yjEZo3', 'Inactivo', '2021-05-01 07:45:38', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (13, 'Merill', 'Ickowicz', 'mickowiczc@japanpost.jp', 'Vm9Bl2aOgXj', 'Inactivo', '2021-11-15 01:08:10', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (14, 'Rochell', 'Sparry', 'rsparryd@multiply.com', 'f07dX2Dx', 'Inactivo', '2021-06-15 12:14:19', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (15, 'Scarlet', 'Jaquemar', 'sjaquemare@php.net', 'JYc4Rcl00', 'Inactivo', '2022-03-11 15:32:55', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (16, 'Jenda', 'Chatelet', 'jchateletf@lulu.com', 'RIxxyv', 'Inactivo', '2022-03-10 23:08:38', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (17, 'Sibilla', 'Mcwhinney', 'smcwhinneyg@artisteer.com', '7pCfIF09NXQ', 'Inactivo', '2021-07-07 22:20:45', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (18, 'Guntar', 'Kolin', 'gkolinh@linkedin.com', 'q3BdrI', 'Inactivo', '2022-04-24 01:54:55', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (19, 'Paulie', 'Jeskins', 'pjeskinsi@dell.com', 'UuhgrPqv1', 'Inactivo', '2022-05-15 11:38:37', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (20, 'Dionisio', 'Matskevich', 'dmatskevichj@pbs.org', 'HqLeeDEUV4X', 'Inactivo', '2022-12-27 11:58:50', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (21, 'Hercules', 'Rois', 'hroisk@jalbum.net', 'uqkBSf0JmW8', 'Inactivo', '2021-06-30 12:15:11', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (22, 'Estel', 'Connett', 'econnettl@foxnews.com', 'xWSQNQtuRqtc', 'Inactivo', '2022-06-20 05:55:20', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (23, 'Tabor', 'Pittford', 'tpittfordm@umich.edu', 'BmIuaWnJy39i', 'Inactivo', '2022-02-25 19:47:44', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (24, 'Bibi', 'Piddlehinton', 'bpiddlehintonn@reference.com', 'dD4LTc', 'Inactivo', '2021-03-27 10:27:50', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (25, 'Waylan', 'Krystof', 'wkrystofo@prlog.org', '7I5U8rng8V', 'Inactivo', '2021-10-29 07:55:38', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (26, 'Lyon', 'Mackie', 'lmackiep@wordpress.org', 'Tafd2Fv', 'Inactivo', '2021-12-08 02:57:25', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (27, 'Laney', 'McDougal', 'lmcdougalq@sciencedirect.com', '243cNXE9R', 'Inactivo', '2021-05-16 14:51:32', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (28, 'Tally', 'Dugall', 'tdugallr@go.com', 'aZakoOavP', 'Inactivo', '2022-08-01 00:15:13', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (29, 'Rois', 'Minico', 'rminicos@yelp.com', '3b8tB4NyWU6', 'Inactivo', '2022-04-06 20:59:34', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (30, 'Holden', 'Caghy', 'hcaghyt@nifty.com', '2laK7ceCN9V3', 'Inactivo', '2021-02-28 21:17:05', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (31, 'Helyn', 'Castard', 'hcastardu@parallels.com', 'RDiDnQlD', 'Inactivo', '2022-06-09 10:18:30', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (32, 'Lotti', 'Copelli', 'lcopelliv@epa.gov', 'FAunvlyiDli9', 'Inactivo', '2021-04-30 00:01:22', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (33, 'Camella', 'Vannoort', 'cvannoortw@goo.gl', '6YMw41O9k', 'Inactivo', '2022-05-09 18:19:20', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (34, 'Angelique', 'Gurr', 'agurrx@desdev.cn', 'DGfRLH9uuLw', 'Inactivo', '2022-05-07 00:44:57', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (35, 'Bevon', 'Morsley', 'bmorsleyy@barnesandnoble.com', 'UPgKDU0dPXn', 'Inactivo', '2022-12-10 13:19:45', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (36, 'Ilaire', 'Lyddiatt', 'ilyddiattz@latimes.com', '0d4MKWpW', 'Inactivo', '2021-05-22 12:52:55', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (37, 'Sheilakathryn', 'Knowlden', 'sknowlden10@cbc.ca', 'zCYdkMcw', 'Inactivo', '2022-03-29 18:56:22', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (38, 'Cammie', 'Blader', 'cblader11@odnoklassniki.ru', 'CQh327o0', 'Inactivo', '2022-09-14 08:40:56', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (39, 'Moses', 'Elleton', 'melleton12@intel.com', 'YKDjrnrHgMKX', 'Inactivo', '2021-04-22 22:29:27', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (40, 'Camey', 'Iddison', 'ciddison13@comsenz.com', 'EYpyrE', 'Inactivo', '2021-01-09 14:31:25', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (41, 'Philomena', 'Muro', 'pmuro14@tripod.com', 'b393Ec9', 'Inactivo', '2022-10-20 08:48:41', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (42, 'Arch', 'Castells', 'acastells15@biglobe.ne.jp', 'qRw7yx', 'Inactivo', '2022-10-17 19:43:03', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (43, 'Leonard', 'Blakebrough', 'lblakebrough16@netvibes.com', '5ZJRoEXKZ', 'Inactivo', '2021-02-27 12:26:31', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (44, 'Keriann', 'Devonald', 'kdevonald17@webnode.com', 'BkLR8zzNX9qJ', 'Inactivo', '2021-07-04 06:29:54', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (45, 'Roda', 'Spellar', 'rspellar18@360.cn', 'FQS5vHWGIRJ', 'Inactivo', '2021-10-03 20:00:22', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (46, 'Torre', 'MacInherney', 'tmacinherney19@netlog.com', 'C9cuD1Pe', 'Inactivo', '2021-06-04 18:50:50', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (47, 'Brig', 'Matussow', 'bmatussow1a@goo.gl', 'm8FNPkcvUZ', 'Inactivo', '2022-10-08 20:53:19', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (48, 'Scot', 'Graver', 'sgraver1b@npr.org', 'JtGijUkB78Xe', 'Inactivo', '2022-10-19 22:59:45', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (49, 'Dorine', 'Aicken', 'daicken1c@elpais.com', 'ZQmFLNN8mo', 'Inactivo', '2021-04-08 18:34:09', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (50, 'Hube', 'Doudny', 'hdoudny1d@uol.com.br', 'YthcjF', 'Inactivo', '2021-01-05 01:50:07', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (51, 'Niccolo', 'Tyer', 'ntyer1e@live.com', 'SESK89p', 'Inactivo', '2021-08-12 04:43:55', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (52, 'Jenica', 'Carss', 'jcarss1f@webnode.com', '0ysBY3k', 'Inactivo', '2021-04-08 10:04:03', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (53, 'Wolf', 'Clears', 'wclears1g@bloglines.com', 'o1xWfSpU', 'Inactivo', '2021-04-21 02:43:24', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (54, 'Raf', 'Longland', 'rlongland1h@multiply.com', 'OxvXYxC', 'Inactivo', '2022-06-20 14:49:24', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (55, 'Kristi', 'Cettell', 'kcettell1i@booking.com', 'sWLvGD', 'Inactivo', '2022-09-04 14:39:33', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (56, 'Elbertine', 'Ilive', 'eilive1j@cbsnews.com', 'hGkEQL6', 'Inactivo', '2022-05-29 22:59:19', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (57, 'Gilbert', 'Lindenboim', 'glindenboim1k@prnewswire.com', '79eRqWe', 'Inactivo', '2022-11-28 01:49:05', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (58, 'Conni', 'Rockey', 'crockey1l@studiopress.com', 'uOa22IZsYBu', 'Inactivo', '2021-12-09 07:54:50', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (59, 'Rickie', 'Willgoose', 'rwillgoose1m@indiatimes.com', 'TyOlrni', 'Inactivo', '2021-12-12 06:39:32', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (60, 'Rosetta', 'Walles', 'rwalles1n@jiathis.com', '8GzWVyPZ', 'Inactivo', '2022-03-17 05:52:35', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (61, 'Shelley', 'Bickerdike', 'sbickerdike1o@time.com', 'QvdV15V', 'Inactivo', '2022-06-24 15:37:02', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (62, 'Warden', 'Teanby', 'wteanby1p@goodreads.com', 'pe6zus6r3', 'Inactivo', '2021-02-04 06:43:24', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (63, 'Wallace', 'Blunsum', 'wblunsum1q@nifty.com', '5NEPDF', 'Inactivo', '2022-11-25 00:10:09', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (64, 'Corey', 'Sapshed', 'csapshed1r@google.com.au', 'BjACun', 'Inactivo', '2021-09-02 04:45:29', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (65, 'Axe', 'Widocks', 'awidocks1s@tumblr.com', 'TfWLu4kFPU', 'Inactivo', '2022-07-17 07:20:55', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (66, 'Vilma', 'Boggers', 'vboggers1t@t-online.de', 'TNSavel', 'Inactivo', '2022-02-10 01:44:38', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (67, 'Astrid', 'Wrist', 'awrist1u@apple.com', 'MI3118ipxS4', 'Inactivo', '2021-04-30 11:10:03', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (68, 'Catha', 'Eate', 'ceate1v@fc2.com', '2wTMVfSY', 'Inactivo', '2022-06-17 17:08:27', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (69, 'Franni', 'Scanderet', 'fscanderet1w@xinhuanet.com', 'BFRnDDURyBo', 'Inactivo', '2021-06-16 13:26:00', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (70, 'Allistir', 'Elen', 'aelen1x@icq.com', 'LKJaejsi', 'Inactivo', '2022-12-22 05:00:07', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (71, 'Larisa', 'Pranger', 'lpranger1y@51.la', 'lTt0aJAZh', 'Inactivo', '2022-01-25 16:17:44', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (72, 'Moe', 'Mouncher', 'mmouncher1z@nih.gov', 'lwB4ALZz2lMI', 'Inactivo', '2022-04-08 23:51:59', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (73, 'Jennee', 'Pembery', 'jpembery20@aol.com', 'qMdQdfWvs', 'Inactivo', '2022-10-20 22:50:24', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (74, 'Frazier', 'McDaid', 'fmcdaid21@com.com', 'exw2vrYfO', 'Inactivo', '2022-02-09 17:15:57', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (75, 'Morissa', 'Yeardley', 'myeardley22@github.io', 'cmJPVYK1YfW', 'Inactivo', '2022-03-19 05:29:40', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (76, 'Marietta', 'Eynaud', 'meynaud23@unesco.org', 'mAMQdFZV', 'Inactivo', '2021-08-16 00:21:12', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (77, 'Alma', 'Shemming', 'ashemming24@yellowbook.com', 'eTm7gTHKb24', 'Inactivo', '2022-08-16 23:27:24', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (78, 'Nev', 'Shenton', 'nshenton25@google.it', 'FcAQFPOjg', 'Inactivo', '2022-07-05 00:08:32', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (79, 'Tish', 'Bellord', 'tbellord26@canalblog.com', '0OkMmxJ7X5Gt', 'Inactivo', '2022-05-06 20:54:45', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (80, 'Minnnie', 'Burd', 'mburd27@woothemes.com', 'QOt4VvQB83', 'Inactivo', '2022-04-12 16:35:52', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (81, 'Calypso', 'Emor', 'cemor28@elegantthemes.com', '3nsFoYo2', 'Inactivo', '2022-09-05 04:17:11', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (82, 'Bev', 'Overell', 'boverell29@chron.com', 'ANjYww', 'Inactivo', '2021-08-12 01:42:42', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (83, 'Rozalie', 'Prawle', 'rprawle2a@cdc.gov', 'EKN4waBH', 'Inactivo', '2022-05-22 06:31:11', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (84, 'Whittaker', 'Wigg', 'wwigg2b@hhs.gov', '64ZYL5Z', 'Inactivo', '2022-06-12 11:44:11', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (85, 'Mable', 'Dent', 'mdent2c@bigcartel.com', 'P4pTFf38fQhZ', 'Inactivo', '2022-10-16 22:34:18', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (86, 'Orton', 'Mapledoore', 'omapledoore2d@ifeng.com', 'yCV8KuoHP', 'Inactivo', '2022-02-23 13:18:11', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (87, 'Alano', 'O\'Bradane', 'aobradane2e@tinypic.com', 'IVqWmPi', 'Inactivo', '2022-04-30 13:01:29', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (88, 'Virgie', 'Harbidge', 'vharbidge2f@mail.ru', '7PtygehRcK', 'Inactivo', '2022-10-18 21:58:28', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (89, 'Aime', 'Storrar', 'astorrar2g@uiuc.edu', 'bqwRggeRnEjZ', 'Inactivo', '2021-05-01 20:17:46', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (90, 'Justino', 'Smedley', 'jsmedley2h@oaic.gov.au', 'CxrhXK9m5A', 'Inactivo', '2022-05-21 22:02:57', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (91, 'Zilvia', 'Goater', 'zgoater2i@bigcartel.com', 'vNJ4huV', 'Inactivo', '2022-01-23 18:53:23', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (92, 'Noelani', 'Hagergham', 'nhagergham2j@networkadvertising.org', '9LccrQ', 'Inactivo', '2022-05-10 08:35:28', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (93, 'Geno', 'Duligall', 'gduligall2k@lycos.com', '67IQe8Tr', 'Inactivo', '2021-02-09 08:00:22', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (94, 'Vaughan', 'Ruddell', 'vruddell2l@stumbleupon.com', '0KS5vdq', 'Inactivo', '2022-05-30 01:48:33', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (95, 'Myrwyn', 'Beasley', 'mbeasley2m@vistaprint.com', 'oUrEFcZ9', 'Inactivo', '2021-10-19 14:54:02', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (96, 'Margot', 'Lettsom', 'mlettsom2n@ft.com', 'yoWV0ye', 'Inactivo', '2022-11-04 12:58:35', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (97, 'Karl', 'Warrington', 'kwarrington2o@forbes.com', 'X1U2P6b', 'Inactivo', '2022-09-22 14:00:12', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (98, 'Augusta', 'Mulcock', 'amulcock2p@ifeng.com', 'FP4yVF', 'Inactivo', '2022-01-30 17:01:16', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (99, 'Konstance', 'Eliyahu', 'keliyahu2q@hao123.com', 'iubqXZ3YvXC', 'Inactivo', '2021-11-10 11:06:50', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (100, 'Oralee', 'Size', 'osize2r@xinhuanet.com', 'QCvh3UB', 'Inactivo', '2022-04-13 02:39:13', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (101, 'Ana', 'Gonzalez', 'cliente@cliente.com', '123', 'Inactivo', '2022-04-13 02:39:13', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/default.webp', 3),
-                (102, 'Bill', 'Gates', 'orador@orador.com', '123', 'Inactivo', '2022-04-13 02:39:13', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/orador.webp', 2),
-                (103, 'Nicolás', 'Calcagno', 'admin@admin.com', '123', 'Inactivo', '2022-04-13 02:39:13', 'https://cdn.nicolascalcagno.dev/shared/conferencia-buenos-aires/images/profile/administrador.webp', 1);
-
-                ALTER TABLE usuarios MODIFY Id int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
-                COMMIT;
-            YAML
+            # ConfigMap with SQL reset script (from file)
+            kubectl create configmap ${APP_NAME}-db-reset \
+              --namespace $NAMESPACE \
+              --from-file=reset.sql=/tmp/db-reset.sql \
+              --dry-run=client -o yaml | kubectl apply -f -
 
             # CronJob for database reset every 5 minutes
             kubectl apply -f - <<YAML
@@ -349,10 +214,12 @@ jobs:
                         - |
                           mysql -h \$DB_HOST -u \$DB_USER -p\$DB_PASS \$DB_NAME < /scripts/reset.sql
                           echo "Database reset completed at \$(date)"
-                        envFrom:
-                        - secretRef:
-                            name: ${APP_NAME}-db
                         env:
+                        - name: DB_HOST
+                          valueFrom:
+                            secretKeyRef:
+                              name: ${APP_NAME}-db
+                              key: DB_HOST
                         - name: DB_USER
                           valueFrom:
                             secretKeyRef:
@@ -376,6 +243,9 @@ jobs:
                         configMap:
                           name: ${APP_NAME}-db-reset
             YAML
+
+            # Cleanup temp file
+            rm -f /tmp/db-reset.sql
 
             # Force new pod to pull latest image
             kubectl rollout restart deployment/${APP_NAME} -n ${NAMESPACE}
