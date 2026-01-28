@@ -6,7 +6,7 @@
 ## 🦾 Tecnologías usadas
 [![My Skills](https://skills.thijs.gg/icons?i=html,css,js,bootstrap,mysql,php)](https://skills.thijs.gg)
 
-## 💻 [Demo](https://projects.nicolascalcagno.dev/conferencia-buenos-aires/index.php)
+## 💻 [Demo](https://shared.nicolascalcagno.dev/conferencia-buenos-aires/index.php)
 
 Cuentas:
 * admin@admin.com:123
