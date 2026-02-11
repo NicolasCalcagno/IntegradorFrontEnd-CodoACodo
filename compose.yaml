@@ -14,6 +14,8 @@ services:
       - traefik.http.services.conferencia-buenos-aires.loadbalancer.server.port=5001
       - traefik.http.services.conferencia-buenos-aires.loadbalancer.server.scheme=http
       - traefik.http.routers.conferencia-buenos-aires.entrypoints=websecure
+      - traefik.http.routers.conferencia-buenos-aires.tls=true
+      - traefik.http.routers.conferencia-buenos-aires.tls.certresolver=cloudflare
       - traefik.http.routers.conferencia-buenos-aires.rule=Host(`projects.nicolascalcagno.dev`) && PathPrefix(`/conferencia-buenos-aires/`)
       - traefik.http.middlewares.conferencia-buenos-aires-strip.stripprefix.prefixes=/conferencia-buenos-aires
       - traefik.http.routers.conferencia-buenos-aires.middlewares=conferencia-buenos-aires-strip
